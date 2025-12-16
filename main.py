@@ -11,8 +11,8 @@ MODE = "train"  # prepare | faces | sequences | train | predict
 DATA_DIR = "data"
 FRAMES_DIR = "frames"
 FACES_DIR = "faces_frames"
-SEQUENCES_PATH = "sequences/data_sequences.npz"
-MODEL_PATH = "models/cnn_lstm_model.h5"
+SEQUENCES_PATH = "sequences/data_sequences_96.npz"
+MODEL_PATH = "models/cnn_lstm_model_96_8.keras"
 WEIGHTS_PATH = "models/efficientnetb1_notop.h5"  # веса EfficientNetB1
 
 TEST_ACTORS = ["Actor_23", "Actor_24"]
@@ -40,7 +40,7 @@ elif MODE == "sequences":
         frames_dir=FACES_DIR,
         seq_len=22,
         out_path=SEQUENCES_PATH,
-        img_size=96
+        img_size=96  # Используем полный размер 96x96 вместо уменьшения до 48x48
     )
 
 elif MODE == "train":
@@ -48,7 +48,6 @@ elif MODE == "train":
     train_model(
         sequences_path=SEQUENCES_PATH,
         model_path=MODEL_PATH,
-        weights_path=WEIGHTS_PATH
     )
 
 elif MODE == "predict":
