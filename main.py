@@ -4,18 +4,18 @@ from src.extract_frames import extract_frames
 from src.extract_faces import extract_faces_mediapipe
 from src.create_sequences import create_sequences
 from src.train import train_model
-from src.predict import predict_on_video
+from src.predict import predict_and_evaluate
 
-MODE = "train"  # prepare | faces | sequences | train | predict
+
+MODE = "predict"  # prepare | faces | sequences | train | predict
 
 DATA_DIR = "data"
 FRAMES_DIR = "frames"
 FACES_DIR = "faces_frames"
 SEQUENCES_PATH = "sequences/data_sequences_96.npz"
-MODEL_PATH = "models/cnn_lstm_model_96_8.keras"
-WEIGHTS_PATH = "models/efficientnetb1_notop.h5"  # веса EfficientNetB1
+MODEL_PATH = "models/cnn_lstm_model_96_99_83p.keras"
 
-TEST_ACTORS = ["Actor_23", "Actor_24"]
+TEST_ACTORS = ["Actor_02", "Actor_24"]
 
 if MODE == "prepare":
     print("STEP 1: Extracting frames from videos...")
@@ -51,12 +51,12 @@ elif MODE == "train":
     )
 
 elif MODE == "predict":
-    print("STEP 5: Predicting emotion...")
-    for actor in TEST_ACTORS:
-        predict_on_video(
-            model_path=MODEL_PATH,
-            video_dir=os.path.join(DATA_DIR, actor)
-        )
+    predict_and_evaluate(
+        model_path=MODEL_PATH,
+        data_dir=DATA_DIR,
+        test_actors=TEST_ACTORS,
+        sequences_path=SEQUENCES_PATH,
+    )
 
 else:
     raise ValueError("Unknown MODE")
